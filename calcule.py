@@ -1,5 +1,8 @@
+from typing import *
+
+
 class Calcule:
-    def consecutive(self, l):
+    def consecutive(self, l: int) -> int:
         n_arr = []
         i, n = 0, 0
         for i in range(len(l)-1):
@@ -10,7 +13,7 @@ class Calcule:
                 n = 0
         return max(n_arr) + 1
     
-    def suma(self, n):            
+    def suma(self, n: int) -> int:
         s = 0
         i = 1
         while n > 0:
