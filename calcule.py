@@ -1,8 +1,9 @@
 from typing import *
+import numpy as np
 
 
 class Calcule:
-    def consecutive(self, l: int) -> int:
+    def consecutive(l: List[int]) -> int:
         n_arr = []
         i, n = 0, 0
         for i in range(len(l) - 1):
@@ -13,13 +14,16 @@ class Calcule:
                 n = 0
         return max(n_arr) + 1
 
-    def suma(self, n: int) -> int:
-        s = 0
-        i = 1
-        while n > 0:
-            n -= i if i % 2 == 1 else 1
-            s += i ** 2 if i % 2 == 1 else i
-            i += 1
-        if n < 0:
-            s -= -n * (i - 1)
+    def suma(n: int) -> int:
+        """
+        Calculate sum of sequence: 1,2,3,3,3,4,5,5,5,5,5,6,7,7,7,7,7,7,7,8,9,9...
+        :param n:
+        :return: sum of first n elements
+        """
+        a = (np.sqrt(1 + 4 * n) - 1) / 2
+        even, odd = int(a), int(a)
+        s = even * (even + 1)
+        s += odd * (4 * odd ** 2 - 1) / 3
+        if not a.is_integer():
+            s += (n - even - odd ** 2) * (2 * even + 1)
         return s
