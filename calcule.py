@@ -21,4 +21,4 @@ class Calcule:
         :return: sum of first n elements
         """
         k = int((np.sqrt(1 + 4*n) - 1)/2)
-        return round(-2*k**3 / 3 - 2*k**2 + (2*n - 1/3)*k + n)
+        return n*(2*k + 1) - k*(2*k**2 + 1)/3 - 2*k**2
