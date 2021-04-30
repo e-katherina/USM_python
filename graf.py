@@ -99,7 +99,7 @@ class Graf:
         M_partial_incidenta = np.array([]).reshape(self.nodes, 0)
         nodes = [0]
 
-        for i in range(self.nodes - 1):
+        for _ in range(self.nodes - 1):
             edge = self.get_min_edge(nodes, M_incidenta)
             M_partial_incidenta = np.hstack((M_partial_incidenta, edge))
             new_node = set(np.nonzero(edge)[0].flatten()) - set(nodes)
