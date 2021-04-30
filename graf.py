@@ -52,9 +52,9 @@ class Graf:
         M_incidenta = np.array([]).reshape(self.nodes, 0)
         for i in range(self.nodes):
             for j in range(i, self.nodes):
-                if self.M_adiacenta[i, j] == 1:
+                if self.M_adiacenta[i, j]:
                     v = np.zeros((self.nodes, 1))
-                    v[[i, j], 0] = 1
+                    v[[i, j], 0] = self.M_adiacenta[i, j]
                     M_incidenta = np.hstack((M_incidenta, v))
                 
         return M_incidenta.astype('int')
@@ -84,3 +84,25 @@ class Graf:
         C = Graf()
         C.set_adiacenta(C_adiacenta)
         return C
+
+    def get_min_edge(self, nodes, M_incidenta):
+        edges = M_incidenta[:, np.unique(np.nonzero(M_incidenta[nodes])[1])]
+        values = np.delete(edges, nodes, axis=0)
+        edge = np.where(values > 0, values, np.inf).argmin() % values.shape[1]
+        return edges[:, [edge]]
+
+    def get_arbore_partial_min(self):
+        """
+        :return: Incidence matrix of minimal partial tree
+        """
+        M_incidenta = self.get_incidenta()
+        M_partial_incidenta = np.array([]).reshape(self.nodes, 0)
+        nodes = [0]
+
+        for i in range(self.nodes - 1):
+            edge = self.get_min_edge(nodes, M_incidenta)
+            M_partial_incidenta = np.hstack((M_partial_incidenta, edge))
+            new_node = set(np.nonzero(edge)[0].flatten()) - set(nodes)
+            nodes.extend(new_node)
+
+        return M_partial_incidenta
